@@ -1,133 +1,207 @@
-import { CheckCircle, FileText } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Star, BookOpen, Palette, Monitor, MessageSquare, Shield, Users, Heart,
+  FileText, CheckCircle, ChevronDown, ChevronUp, GraduationCap,
+  ClipboardList, UserCheck, Scroll, BadgeCheck,
+} from "lucide-react";
 import PageHero from "@/app/components/public/PageHero";
 import SectionHeading from "@/app/components/public/SectionHeading";
 import CTABanner from "@/app/components/public/CTABanner";
+import AdmissionForm from "@/app/components/public/AdmissionForm";
+import {
+  ADMISSION_CLASSES,
+  ADMISSION_STEPS,
+  ADMISSION_FAQS,
+  REQUIRED_DOCUMENTS,
+} from "@/data/public/admissionsData";
 
-export const metadata = {
-  title: "Admissions",
-  description:
-    "Apply to Laurel Children Academy. We accept children from Nursery through Primary 6. Rolling admissions — apply today for the 2027/2028 academic session.",
-};
-
-const steps = [
-  { n: "01", title: "Submit Application",      desc: "Complete our online or paper application form with your child's information and supporting documents." },
-  { n: "02", title: "Application Review",      desc: "Our admissions team reviews every application thoroughly within 1–2 working weeks." },
-  { n: "03", title: "Assessment & Interview",  desc: "Selected applicants are invited for a brief, child-friendly assessment and a parent meet-and-greet." },
-  { n: "04", title: "Admission Decision",      desc: "Families receive a formal decision letter by email and postal address." },
-  { n: "05", title: "Enrolment",               desc: "Successful applicants complete enrolment formalities, pay initial fees, and receive a welcome pack." },
+// ── Why Laurel cards ──────────────────────────────────────────────────────────
+const WHY_CARDS = [
+  { icon: Star,          label: "Academic Excellence",    desc: "High expectations and outstanding academic outcomes from Early Years through Primary 6." },
+  { icon: Shield,        label: "Character Development",  desc: "We build integrity, empathy, and responsibility alongside academic achievement." },
+  { icon: Palette,       label: "Creativity",             desc: "Arts, science, and project-based learning spark imagination and innovation every day." },
+  { icon: Monitor,       label: "Digital Literacy",       desc: "Modern computer labs and coding education prepare children for tomorrow's world." },
+  { icon: MessageSquare, label: "Communication",          desc: "Strong oral and written communication skills developed across every subject." },
+  { icon: BookOpen,      label: "Confidence",             desc: "We celebrate every win and build the self-belief children need to thrive." },
+  { icon: Users,         label: "Collaboration",          desc: "Teamwork, peer learning, and leadership are embedded in our daily school life." },
+  { icon: Heart,         label: "Holistic Development",   desc: "Social, emotional, physical, and academic growth — the whole child matters here." },
 ];
 
-const documents = [
-  "Birth certificate (original + photocopy)",
-  "Immunisation / vaccination record",
-  "Two recent passport photographs",
-  "Previous school report card (if applicable)",
-  "Parent / guardian ID",
-  "Completed Laurel application form",
-];
+// Step icons
+const STEP_ICONS = [ClipboardList, FileText, UserCheck, Scroll, BadgeCheck];
 
-const ageReqs = [
-  { level: "Nursery 1",   age: "2 – 3 years" },
-  { level: "Nursery 2",   age: "3 – 4 years" },
-  { level: "Reception",   age: "4 – 5 years" },
-  { level: "Primary 1",   age: "5 – 6 years" },
-  { level: "Primary 2",   age: "6 – 7 years" },
-  { level: "Primary 3",   age: "7 – 8 years" },
-  { level: "Primary 4",   age: "8 – 9 years" },
-  { level: "Primary 5",   age: "9 – 10 years" },
-  { level: "Primary 6",   age: "10 – 11 years" },
-];
+// ── FAQ Accordion ─────────────────────────────────────────────────────────────
+function FaqAccordion() {
+  const [open, setOpen] = useState(null);
+  return (
+    <div className="adm-faq__list">
+      {ADMISSION_FAQS.map((item, i) => (
+        <div key={i} className={`faq-item${open === i ? " faq-item--open" : ""}`}>
+          <button
+            className="faq-item__question"
+            onClick={() => setOpen(open === i ? null : i)}
+            aria-expanded={open === i}
+            aria-controls={`adm-faq-${i}`}
+          >
+            <span>{item.q}</span>
+            {open === i ? <ChevronUp size={18} aria-hidden="true" /> : <ChevronDown size={18} aria-hidden="true" />}
+          </button>
+          <div id={`adm-faq-${i}`} className="faq-item__answer">
+            <p>{item.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
+// ── Page ──────────────────────────────────────────────────────────────────────
 export default function AdmissionsPage() {
+  function scrollToForm(e) {
+    e.preventDefault();
+    document.getElementById("application-form")?.scrollIntoView({ behavior: "smooth" });
+  }
+
   return (
     <main className="admissions-page">
-      {/* ── Hero ──────────────────────────────────────────────── */}
-      <PageHero
-        title="Admissions"
-        subtitle="Join a community where every child is seen, supported, and inspired."
-        breadcrumb="Admissions"
-        imageSrc="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1600&q=85&fit=crop"
-        imageAlt="Students collaborating and reading at Laurel Children Academy"
-      />
-
-      {/* ── Overview + Steps ──────────────────────────────────── */}
-      <section className="admissions-overview section-container reveal-section">
-        <div className="admissions-overview__inner">
-          <div className="admissions-overview__text">
-            <SectionHeading
-              eyebrow="JOIN US"
-              title="How to Apply"
-              subtitle="Our admissions process is straightforward, transparent, and designed with families in mind."
-            />
-            <p className="body-text">
-              Laurel Children Academy welcomes applications for all year groups from Nursery 1
-              through Primary 6. We practise rolling admissions and accept applications
-              throughout the year, subject to available spaces in each class. Our inclusive
-              approach means we consider every child on their individual merits.
-            </p>
-            <p className="body-text">
-              We encourage prospective families to attend our regular Open Day events to
-              meet our staff, tour the campus, and experience our school environment
-              before submitting an application.
-            </p>
-          </div>
-
-          <div className="admissions-process">
-            {steps.map((step) => (
-              <div key={step.n} className="admissions-step">
-                <div className="admissions-step__number" aria-hidden="true">{step.n}</div>
-                <div className="admissions-step__content">
-                  <h3 className="admissions-step__title">{step.title}</h3>
-                  <p className="admissions-step__desc">{step.desc}</p>
-                </div>
-              </div>
-            ))}
+      {/* 1. Hero */}
+      <section className="adm-hero">
+        <div className="adm-hero__bg">
+          <Image
+            src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1600&q=85&fit=crop"
+            alt="Laurel Children Academy students"
+            fill priority quality={85}
+            style={{ objectFit: "cover", objectPosition: "center top" }}
+          />
+        </div>
+        <div className="adm-hero__overlay" aria-hidden="true" />
+        <div className="adm-hero__content section-container">
+          <p className="adm-hero__eyebrow">ADMISSIONS 2027/2028</p>
+          <h1 className="adm-hero__title">Give Your Child<br />a Strong Start</h1>
+          <p className="adm-hero__subtitle">
+            Begin your child's journey at Laurel Children Academy. Our admissions process
+            is simple, transparent, and welcoming for every family.
+          </p>
+          <div className="adm-hero__ctas">
+            <a href="#application-form" className="adm-hero__btn adm-hero__btn--primary" onClick={scrollToForm}>
+              Start Application
+            </a>
+            <a href="#admission-process" className="adm-hero__btn adm-hero__btn--secondary">
+              View Process
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ── Requirements ──────────────────────────────────────── */}
-      <section className="admissions-reqs reveal-section">
+      {/* 2. Why Laurel */}
+      <section className="adm-why section-container reveal-section">
+        <SectionHeading
+          eyebrow="WHY LAUREL"
+          title="More Than a School"
+          subtitle="Thousands of Lagos families trust Laurel Children Academy with their children's most important years."
+          centered
+        />
+        <div className="adm-why__grid">
+          {WHY_CARDS.map(({ icon: Icon, label, desc }) => (
+            <div key={label} className="adm-why-card">
+              <div className="adm-why-card__icon" aria-hidden="true">
+                <Icon size={22} strokeWidth={1.5} />
+              </div>
+              <h3 className="adm-why-card__label">{label}</h3>
+              <p className="adm-why-card__desc">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 3. Admission Process */}
+      <section className="adm-process reveal-section" id="admission-process">
+        <div className="section-container">
+          <SectionHeading
+            eyebrow="THE PROCESS"
+            title="Simple, Transparent, Welcoming"
+            subtitle="From application to enrolment — here is what to expect."
+            centered
+            light
+          />
+          <div className="adm-process__steps">
+            {ADMISSION_STEPS.map((step, i) => {
+              const Icon = STEP_ICONS[i];
+              return (
+                <div key={step.n} className="adm-process-step">
+                  <div className="adm-process-step__num" aria-hidden="true">{step.n}</div>
+                  <div className="adm-process-step__icon" aria-hidden="true">
+                    <Icon size={28} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="adm-process-step__title">{step.title}</h3>
+                  <p className="adm-process-step__desc">{step.desc}</p>
+                  {i < ADMISSION_STEPS.length - 1 && <div className="adm-process-step__connector" aria-hidden="true" />}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Available Classes */}
+      <section className="adm-classes section-container reveal-section">
+        <SectionHeading
+          eyebrow="AVAILABLE CLASSES"
+          title="Find the Right Level for Your Child"
+          centered
+        />
+        <div className="adm-classes__grid">
+          {ADMISSION_CLASSES.map((cls) => (
+            <div key={cls.value} className="adm-class-card">
+              <div className="adm-class-card__icon" aria-hidden="true">
+                <GraduationCap size={24} strokeWidth={1.5} />
+              </div>
+              <h3 className="adm-class-card__name">{cls.label}</h3>
+              <span className="adm-class-card__age">{cls.ageRange}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 5. Requirements */}
+      <section className="adm-reqs reveal-section">
         <div className="section-container">
           <SectionHeading
             eyebrow="REQUIREMENTS"
             title="What You Will Need"
+            subtitle="Gather these items before you begin your application."
             centered
           />
-          <div className="admissions-reqs__grid">
-            <div className="admissions-req-card">
-              <h3 className="admissions-req-card__title">
-                <FileText size={20} aria-hidden="true" />
-                Documents Required
+          <div className="adm-reqs__grid">
+            <div className="adm-reqs__col">
+              <h3 className="adm-reqs__col-title">
+                <FileText size={18} aria-hidden="true" /> Required Documents
               </h3>
-              <ul className="admissions-req-card__list">
-                {documents.map((doc) => (
-                  <li key={doc} className="admissions-req-card__item">
+              <ul className="adm-reqs__list">
+                {REQUIRED_DOCUMENTS.map((doc) => (
+                  <li key={doc.id} className="adm-reqs__item">
                     <CheckCircle size={16} aria-hidden="true" />
-                    {doc}
+                    {doc.label}
+                    {doc.required && <span className="adm-reqs__required">Required</span>}
                   </li>
                 ))}
               </ul>
             </div>
-
-            <div className="admissions-req-card">
-              <h3 className="admissions-req-card__title">
-                <CheckCircle size={20} aria-hidden="true" />
-                Age Requirements
+            <div className="adm-reqs__col">
+              <h3 className="adm-reqs__col-title">
+                <CheckCircle size={18} aria-hidden="true" /> Age Requirements
               </h3>
               <table className="admissions-age-table" aria-label="Age requirements by class level">
                 <thead>
-                  <tr>
-                    <th>Class Level</th>
-                    <th>Age Range</th>
-                  </tr>
+                  <tr><th>Class Level</th><th>Age Range</th></tr>
                 </thead>
                 <tbody>
-                  {ageReqs.map((row) => (
-                    <tr key={row.level}>
-                      <td>{row.level}</td>
-                      <td>{row.age}</td>
-                    </tr>
+                  {ADMISSION_CLASSES.map((c) => (
+                    <tr key={c.value}><td>{c.label}</td><td>{c.ageRange}</td></tr>
                   ))}
                 </tbody>
               </table>
@@ -136,41 +210,47 @@ export default function AdmissionsPage() {
         </div>
       </section>
 
-      {/* ── Fees overview ─────────────────────────────────────── */}
-      <section className="admissions-fees section-container reveal-section">
+      {/* 6. Application Form */}
+      <section className="adm-form-section section-container reveal-section">
         <SectionHeading
-          eyebrow="SCHOOL FEES"
-          title="Transparent and Fair Pricing"
-          subtitle="We believe every family deserves to understand what they are investing in."
+          eyebrow="APPLY NOW"
+          title="Start Your Application"
+          subtitle="Complete the form below. It takes about 10 minutes."
           centered
         />
-        <div className="admissions-fees__content">
-          <p className="body-text admissions-fees__note">
-            School fees at Laurel Children Academy are charged on a term-by-term basis.
-            The fee structure covers tuition, learning materials, and a school activities levy.
-            Additional optional fees apply for transport, extended day, and extracurricular clubs.
-          </p>
-          <p className="body-text admissions-fees__note">
-            Detailed fee schedules are included in the admissions information pack, which is
-            available on request from our admissions office. We offer a sibling discount for
-            families with more than one child enrolled.
-          </p>
-          <a
-            href="mailto:admissions@laurelacademy.edu.ng?subject=Fee%20Structure%20Request"
-            className="admissions-fees__request-btn"
-          >
-            Request Fee Structure
-          </a>
+        <AdmissionForm />
+      </section>
+
+      {/* 7. Status checker CTA */}
+      <section className="adm-status-cta section-container reveal-section">
+        <div className="adm-status-cta__inner">
+          <div>
+            <h2 className="adm-status-cta__title">Already Applied?</h2>
+            <p className="adm-status-cta__desc">Use your Application ID to check the status of your application at any time.</p>
+          </div>
+          <Link href="/admissions/status" className="adm-status-cta__btn">
+            Check Application Status
+          </Link>
         </div>
       </section>
 
-      {/* ── CTA ───────────────────────────────────────────────── */}
+      {/* 8. FAQ */}
+      <section className="adm-faq section-container reveal-section">
+        <SectionHeading
+          eyebrow="FAQ"
+          title="Common Questions"
+          centered
+        />
+        <FaqAccordion />
+      </section>
+
+      {/* 9. CTA */}
       <CTABanner
         variant="brown"
-        title="Begin Your Child's Journey Today"
-        subtitle="Applications are open for the 2027/2028 academic session. Limited spaces available."
-        primaryLabel="Apply Now"
-        primaryHref="mailto:admissions@laurelacademy.edu.ng?subject=Admissions%20Application"
+        title="Ready to Begin?"
+        subtitle="Spaces for the 2027/2028 session are limited. Apply today."
+        primaryLabel="Start Application"
+        primaryHref="#application-form"
         secondaryLabel="Contact Admissions"
         secondaryHref="/contact"
       />
