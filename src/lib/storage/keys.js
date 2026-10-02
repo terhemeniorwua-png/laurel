@@ -29,6 +29,9 @@ export const STORAGE_KEYS = {
   NOTIFICATIONS: "lca_notifications",
   ADMISSIONS:    "lca_admissions",
 
+  // ── Authentication ────────────────────────────────────────────────────────
+  AUTH_SESSION:  "lca_auth_session",
+
   // ── Seed / versioning ─────────────────────────────────────────────────────
   SEED_VERSION:  "lca_seed_version",
   INITIALIZED:   "lca_initialized",
