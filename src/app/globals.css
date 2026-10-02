@@ -3417,3 +3417,31 @@ main {
   .hp-admissions-cta__btns { flex-direction: column; }
   .hp-admissions-cta__btn { justify-content: center; }
 }
+
+/* ── Admissions final CTA (bottom of page) ──────────────── */
+.adm-final-cta {
+  padding: 5rem 0;
+  background: var(--color-laurel-brown);
+}
+.adm-final-cta__inner {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.adm-final-cta__eyebrow {
+  display: block;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--color-laurel-peach); margin-bottom: 1rem;
+}
+.adm-final-cta__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  color: #fff; line-height: 1.2; margin-bottom: 1rem;
+}
+.adm-final-cta__subtitle {
+  font-size: 1rem; line-height: 1.7;
+  color: rgba(255,255,255,0.78); margin-bottom: 2rem;
+}
+.adm-final-cta__btns {
+  display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+}
