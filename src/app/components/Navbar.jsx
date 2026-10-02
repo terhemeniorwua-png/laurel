@@ -49,12 +49,13 @@ export default function Navbar() {
   const isSolid = !isHomePage || scrolled || menuOpen;
 
   const navLinks = [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Academics", href: "/academics" },
+    { label: "Home",       href: "/" },
+    { label: "About",      href: "/about" },
+    { label: "Academics",  href: "/academics" },
     { label: "Admissions", href: "/admissions" },
-    { label: "News & Events", href: "/news" },
-    { label: "Contact", href: "/contact" },
+    { label: "News",       href: "/news" },
+    { label: "Events",     href: "/events" },
+    { label: "Contact",    href: "/contact" },
   ];
 
   return (

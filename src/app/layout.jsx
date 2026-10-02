@@ -1,5 +1,7 @@
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import Footer from "./components/public/Footer";
+import StorageInitializer from "./components/providers/StorageInitializer";
 
 export const metadata = {
   title: {
@@ -14,24 +16,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="h-full">
       <head>
-        {/*
-          Google Fonts — loaded here rather than via CSS @import url()
-          to avoid Tailwind v4 PostCSS ordering conflicts.
-        */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
         />
       </head>
       <body className="min-h-full flex flex-col antialiased">
+        <StorageInitializer />
         <Navbar />
-        {children}
+        <div className="page-body">{children}</div>
+        <Footer />
       </body>
     </html>
   );
