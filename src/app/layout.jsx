@@ -1,7 +1,8 @@
 import "./globals.css";
 import Navbar from "./components/Navbar";
-import Footer from "./components/public/Footer";
+import FooterGuard from "./components/public/FooterGuard";
 import StorageInitializer from "./components/providers/StorageInitializer";
+import { AuthProvider } from "./components/providers/AuthProvider";
 
 export const metadata = {
   title: {
@@ -24,10 +25,17 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="min-h-full flex flex-col antialiased">
-        <StorageInitializer />
-        <Navbar />
-        <div className="page-body">{children}</div>
-        <Footer />
+        <AuthProvider>
+          <StorageInitializer />
+          {/*
+            Navbar and Footer hide themselves when pathname starts with
+            /portal or equals /login — handled inside each component
+            via usePathname().
+          */}
+          <Navbar />
+          <div className="page-body">{children}</div>
+          <FooterGuard />
+        </AuthProvider>
       </body>
     </html>
   );
