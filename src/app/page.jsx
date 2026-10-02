@@ -1,4 +1,5 @@
 import HeroCarousel from "./components/public/HeroCarousel";
+import RevealObserver from "./components/providers/RevealObserver";
 import SchoolIntro from "./components/home/SchoolIntro";
 import StatsSection from "./components/home/StatsSection";
 import WhyLaurel from "./components/home/WhyLaurel";
@@ -20,6 +21,14 @@ export const metadata = {
 export default function HomePage() {
   return (
     <main>
+      {/*
+        RevealObserver installs the IntersectionObserver that adds .revealed
+        to every .reveal-section element, making them visible on scroll.
+        The homepage uses HeroCarousel (not PageHero), so this must be mounted
+        explicitly here. It renders null — no visual output.
+      */}
+      <RevealObserver />
+
       {/* 1. Hero — full-width image carousel */}
       <HeroCarousel />
 
