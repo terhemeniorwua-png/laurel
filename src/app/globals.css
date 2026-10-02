@@ -306,7 +306,7 @@ html {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity var(--fade-duration, 800ms) ease-in-out;
+  transition: opacity var(--fade-duration, 500ms) ease-in-out;
 }
 
 /* Entering (active) slide fades in */
@@ -569,7 +569,7 @@ html {
 }
 
 .hero-slide__img--ken-burns {
-  animation: kenBurns 6s ease-out forwards;
+  animation: kenBurns 3s ease-out forwards;
 }
 
 /* ── Reduced-motion overrides ─────────────────────────────── */
