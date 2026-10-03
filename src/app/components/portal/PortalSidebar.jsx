@@ -1,16 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard, Users, GraduationCap, BookOpen, ClipboardList,
   BarChart2, Wallet, Bell, CalendarDays, MessageSquare, Settings,
   LogOut, Menu, X, ChevronRight, UserCheck, FileText, Receipt,
-  DollarSign, BookMarked, Baby,
+  DollarSign, BookMarked, Baby, Search,
 } from "lucide-react";
 import { useAuth } from "@/app/components/providers/AuthProvider";
 import { ROLE_NAV, ROLE_LABELS } from "@/lib/auth/roles";
+import { getUnreadCount } from "@/lib/storage/notifications";
+import { getUnreadCount as getUnreadMessages } from "@/lib/storage/messages";
+import GlobalSearch from "./GlobalSearch";
 
 const ICON_MAP = {
   "/portal/dashboard":    LayoutDashboard,
@@ -36,8 +39,23 @@ export default function PortalSidebar() {
   const { user, signOut } = useAuth();
   const pathname = usePathname();
   const router   = useRouter();
-  const [open, setOpen]           = useState(false);
+  const [open, setOpen]             = useState(false);
   const [showLogout, setShowLogout] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [unreadNotifs, setUnreadNotifs] = useState(0);
+
+  useEffect(() => {
+    if (user?.id) setUnreadNotifs(getUnreadCount(user.id));
+  }, [user, pathname]);
+
+  // Global Ctrl+K / Cmd+K shortcut
+  useEffect(() => {
+    function handler(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") { e.preventDefault(); setSearchOpen(true); }
+    }
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   const navItems = ROLE_NAV[user?.role] ?? [];
 
@@ -60,7 +78,10 @@ export default function PortalSidebar() {
           <Menu size={22} />
         </button>
         <span className="portal-topbar__title">Laurel Portal</span>
-        <div className="portal-topbar__avatar" aria-hidden="true">{initials}</div>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <button className="portal-topbar__menu" onClick={() => setSearchOpen(true)} aria-label="Open search"><Search size={20} /></button>
+          <div className="portal-topbar__avatar" aria-hidden="true">{initials}</div>
+        </div>
       </div>
 
       {/* ── Sidebar overlay (mobile) ────────────────────────── */}
@@ -93,6 +114,12 @@ export default function PortalSidebar() {
 
         {/* Nav */}
         <nav className="portal-sidebar__nav" aria-label="Portal menu">
+          {/* Search shortcut */}
+          <button className="portal-nav-item portal-nav-item--search" onClick={() => setSearchOpen(true)} aria-label="Search (Ctrl+K)">
+            <Search size={18} aria-hidden="true" />
+            <span>Search</span>
+            <kbd className="portal-search-kbd">⌘K</kbd>
+          </button>
           {navItems.map((item) => {
             const Icon = ICON_MAP[item.href] ?? ChevronRight;
             const active = pathname === item.href || (item.href !== "/portal/dashboard" && pathname.startsWith(item.href));
@@ -131,6 +158,9 @@ export default function PortalSidebar() {
           </div>
         </div>
       )}
+
+      {/* ── Global Search ───────────────────────────────────── */}
+      <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 }
