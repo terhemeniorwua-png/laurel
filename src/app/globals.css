@@ -3861,3 +3861,495 @@ main {
   .dash-cards { grid-template-columns: 1fr; }
   .dash-sections { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   PHASE 8 — ADMINISTRATOR DASHBOARD
+   ============================================================ */
+
+/* ── Admin dashboard wrapper ─────────────────────────────── */
+.adm-dashboard {
+  max-width: 1280px;
+  padding-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Page header ─────────────────────────────────────────── */
+.adm-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.adm-header__greeting {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.25rem;
+}
+.adm-header__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--color-text-primary);
+  margin-bottom: 0.25rem;
+}
+.adm-header__sub {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+.adm-header__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.375rem;
+}
+.adm-header__date {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.adm-header__session {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.625rem;
+  border-radius: 20px;
+  background: var(--color-peach-tint);
+  color: var(--color-laurel-brown);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.adm-header__refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-laurel-brown);
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.375rem 0.75rem;
+  cursor: pointer;
+  transition: background 200ms;
+  font-family: var(--font-sans);
+}
+.adm-header__refresh:hover {
+  background: var(--color-peach-tint);
+}
+
+/* ── Metric cards ────────────────────────────────────────── */
+.adm-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+.adm-metric-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 1.375rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  text-decoration: none;
+  transition: box-shadow 200ms, transform 200ms;
+  border-top: 3px solid var(--mc-color, var(--color-laurel-brown));
+}
+.adm-metric-card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+.adm-metric-card__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--mc-color, #532306) 12%, transparent);
+  color: var(--mc-color, var(--color-laurel-brown));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.adm-metric-card__label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.25rem;
+}
+.adm-metric-card__value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  line-height: 1;
+  margin-bottom: 0.375rem;
+}
+.adm-metric-card__footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.adm-metric-card__sub {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+.adm-metric-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.125rem 0.4rem;
+  border-radius: 4px;
+}
+.adm-metric-trend--up   { background: #dcfce7; color: #15803d; }
+.adm-metric-trend--down { background: #fee2e2; color: #dc2626; }
+
+/* ── Panels (reusable container) ─────────────────────────── */
+.adm-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 1.5rem;
+}
+.adm-panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.adm-panel__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+.adm-panel__sub {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin-top: 0.125rem;
+}
+.adm-panel__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-laurel-brown);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.adm-panel__link:hover { text-decoration: underline; }
+.adm-empty {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  padding: 1rem 0;
+}
+
+/* ── Charts row ──────────────────────────────────────────── */
+.adm-charts-row {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 1.25rem;
+}
+.adm-panel--chart { }
+.adm-chart-filter {
+  display: flex;
+  gap: 0.375rem;
+  flex-shrink: 0;
+}
+.adm-chart-filter__btn {
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  border: 1.5px solid var(--color-border);
+  background: none;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background 150ms, border-color 150ms;
+}
+.adm-chart-filter__btn--active {
+  background: var(--color-peach-tint);
+  border-color: var(--color-laurel-peach);
+  color: var(--color-laurel-brown);
+}
+.adm-chart-wrap { margin-top: 0.5rem; }
+
+/* ── Attendance panel ────────────────────────────────────── */
+.adm-attendance__rate {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: #1a5e3a;
+}
+.adm-attendance__body {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.adm-attendance__chart { position: relative; flex: 1; }
+.adm-attendance__center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+.adm-attendance__center-num  { display: block; font-size: 1.375rem; font-weight: 800; color: var(--color-text-primary); }
+.adm-attendance__center-label{ display: block; font-size: 0.75rem; color: var(--color-text-muted); }
+.adm-attendance__stats { display: flex; flex-direction: column; gap: 0.625rem; min-width: 130px; }
+.adm-att-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+.adm-att-stat__dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.adm-att-stat__label { flex: 1; color: var(--color-text-muted); }
+.adm-att-stat__val   { font-weight: 700; color: var(--color-text-primary); }
+
+/* ── Mid row ─────────────────────────────────────────────── */
+.adm-mid-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+/* ── Admissions pipeline ─────────────────────────────────── */
+.adm-admissions__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+.adm-adm-item {
+  padding: 1rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--adm-color, #532306) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--adm-color, #532306) 20%, transparent);
+  text-align: center;
+}
+.adm-adm-item__val   { display: block; font-size: 1.5rem; font-weight: 800; color: var(--adm-color, #532306); }
+.adm-adm-item__label { display: block; font-size: 0.75rem; color: var(--color-text-muted); margin-top: 0.2rem; }
+
+/* ── Financial overview ──────────────────────────────────── */
+.adm-finance__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.adm-finance__stat {
+  padding: 1rem;
+  border-radius: 10px;
+  background: var(--color-warm-bg);
+  border: 1px solid var(--color-border);
+}
+.adm-finance__stat--green { background: #f0fdf4; border-color: #bbf7d0; }
+.adm-finance__stat--red   { background: #fef2f2; border-color: #fecaca; }
+.adm-finance__label { display: block; font-size: 0.75rem; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.25rem; }
+.adm-finance__val   { display: block; font-size: 1.25rem; font-weight: 800; color: var(--color-text-primary); }
+.adm-finance__stat--green .adm-finance__val { color: #15803d; }
+.adm-finance__stat--red   .adm-finance__val { color: #dc2626; }
+.adm-finance__progress-wrap { display: flex; align-items: center; gap: 0.875rem; }
+.adm-finance__progress-bar {
+  flex: 1; height: 10px; border-radius: 99px;
+  background: var(--color-border); overflow: hidden;
+}
+.adm-finance__progress-fill {
+  height: 100%; border-radius: 99px;
+  background: var(--color-laurel-brown);
+  transition: width 600ms ease;
+}
+.adm-finance__progress-label { font-size: 0.8125rem; font-weight: 700; color: var(--color-text-primary); white-space: nowrap; }
+
+/* ── Quick actions ───────────────────────────────────────── */
+.adm-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.875rem;
+}
+.adm-quick-actions__grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0.75rem;
+}
+.adm-quick-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.125rem 0.75rem;
+  border-radius: 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  text-decoration: none;
+  transition: box-shadow 200ms, transform 200ms, border-color 200ms;
+}
+.adm-quick-btn:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--qa-color, #532306) 30%, transparent);
+}
+.adm-quick-btn__icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: color-mix(in srgb, var(--qa-color, #532306) 12%, transparent);
+  color: var(--qa-color, var(--color-laurel-brown));
+  display: flex; align-items: center; justify-content: center;
+}
+.adm-quick-btn__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ── Bottom row ──────────────────────────────────────────── */
+.adm-bottom-row {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+.adm-bottom-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Recent activity ─────────────────────────────────────── */
+.adm-activity__list { display: flex; flex-direction: column; gap: 0; list-style: none; }
+.adm-activity__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.adm-activity__item:last-child { border-bottom: none; }
+.adm-activity__icon {
+  width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+  background: color-mix(in srgb, var(--act-color, #532306) 12%, transparent);
+  color: var(--act-color, var(--color-laurel-brown));
+  display: flex; align-items: center; justify-content: center;
+}
+.adm-activity__body { flex: 1; min-width: 0; }
+.adm-activity__text { font-size: 0.875rem; font-weight: 600; color: var(--color-text-primary); line-height: 1.4; }
+.adm-activity__who  { font-size: 0.8rem; color: var(--color-text-muted); margin-top: 0.125rem; }
+.adm-activity__right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem; flex-shrink: 0; }
+.adm-activity__cat  { font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; background: var(--color-brown-tint); color: var(--color-laurel-brown); }
+.adm-activity__time { font-size: 0.75rem; color: var(--color-text-muted); }
+
+/* ── Events panel ────────────────────────────────────────── */
+.adm-events__list { display: flex; flex-direction: column; gap: 0; list-style: none; }
+.adm-event-item {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.adm-event-item:last-child { border-bottom: none; }
+.adm-event-item__date {
+  width: 44px; flex-shrink: 0;
+  background: var(--color-laurel-brown); color: #fff;
+  border-radius: 8px; padding: 0.3rem 0.25rem;
+  display: flex; flex-direction: column; align-items: center;
+}
+.adm-event-item__day   { font-family: var(--font-display); font-size: 1.125rem; line-height: 1; }
+.adm-event-item__month { font-size: 0.625rem; font-weight: 700; text-transform: uppercase; color: var(--color-laurel-peach); }
+.adm-event-item__body  { flex: 1; min-width: 0; }
+.adm-event-item__title { font-size: 0.875rem; font-weight: 600; color: var(--color-text-primary); line-height: 1.35; }
+.adm-event-item__meta  { font-size: 0.75rem; color: var(--color-text-muted); margin-top: 0.125rem; }
+.adm-event-item__cat   { font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; background: var(--color-peach-tint); color: var(--color-laurel-brown); flex-shrink: 0; }
+
+/* ── Notifications panel ─────────────────────────────────── */
+.adm-notifs__badge {
+  display: inline-block; padding: 0.15rem 0.625rem; border-radius: 20px;
+  font-size: 0.75rem; font-weight: 700;
+  background: var(--color-laurel-peach); color: var(--color-laurel-brown);
+}
+.adm-notifs__list { display: flex; flex-direction: column; gap: 0; list-style: none; }
+.adm-notif-item {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+}
+.adm-notif-item:last-child { border-bottom: none; }
+.adm-notif-item--unread { background: transparent; }
+.adm-notif-item__icon {
+  width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+  background: var(--color-peach-tint); color: var(--color-laurel-brown);
+  display: flex; align-items: center; justify-content: center;
+}
+.adm-notif-item__body { flex: 1; min-width: 0; }
+.adm-notif-item__title { font-size: 0.8125rem; font-weight: 700; color: var(--color-text-primary); line-height: 1.35; }
+.adm-notif-item__msg   { font-size: 0.75rem; color: var(--color-text-muted); margin-top: 0.125rem; line-height: 1.4; }
+.adm-notif-item__dot {
+  width: 8px; height: 8px; border-radius: 50;
+  background: var(--color-laurel-brown);
+  flex-shrink: 0; margin-top: 4px;
+}
+
+/* ── Portal Coming Soon ──────────────────────────────────── */
+.portal-coming-soon {
+  min-height: calc(100vh - 200px);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; gap: 1rem; padding: 2rem;
+}
+.portal-coming-soon__icon { color: var(--color-laurel-peach); }
+.portal-coming-soon__title { font-family: var(--font-display); font-size: 1.875rem; color: var(--color-text-primary); }
+.portal-coming-soon__desc  { font-size: 1rem; color: var(--color-text-muted); max-width: 400px; line-height: 1.65; }
+.portal-coming-soon__back {
+  display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;
+  padding: 0.75rem 1.5rem; border-radius: 8px;
+  background: var(--color-laurel-brown); color: #fff;
+  font-size: 0.9375rem; font-weight: 700; text-decoration: none;
+  transition: background 200ms;
+}
+.portal-coming-soon__back:hover { background: var(--color-laurel-brown-deep); }
+
+/* ── Admin dashboard responsive ──────────────────────────── */
+@media (max-width: 1280px) {
+  .adm-quick-actions__grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 1100px) {
+  .adm-metrics-grid { grid-template-columns: repeat(3, 1fr); }
+  .adm-charts-row   { grid-template-columns: 1fr; }
+  .adm-bottom-row   { grid-template-columns: 1fr; }
+  .adm-bottom-right { flex-direction: row; }
+}
+@media (max-width: 900px) {
+  .adm-mid-row      { grid-template-columns: 1fr; }
+  .adm-quick-actions__grid { grid-template-columns: repeat(4, 1fr); }
+  .adm-admissions__grid    { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 767px) {
+  .adm-metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  .adm-quick-actions__grid { grid-template-columns: repeat(4, 1fr); }
+  .adm-finance__stats { grid-template-columns: 1fr; }
+  .adm-attendance__body { flex-direction: column; align-items: flex-start; }
+  .adm-bottom-right { flex-direction: column; }
+  .adm-header { flex-direction: column; }
+  .adm-header__right { align-items: flex-start; }
+}
+@media (max-width: 480px) {
+  .adm-metrics-grid { grid-template-columns: 1fr; }
+  .adm-quick-actions__grid { grid-template-columns: repeat(2, 1fr); }
+  .adm-admissions__grid { grid-template-columns: repeat(2, 1fr); }
+}

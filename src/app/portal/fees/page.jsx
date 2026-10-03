@@ -1,10 +1,10 @@
 import PortalComingSoon from "@/app/components/portal/PortalComingSoon";
 
-export default function Fees&PaymentsPage() {
+export default function FeesPage() {
   return (
     <PortalComingSoon
-      title="Fees & Payments"
-      description="The Fees & Payments module is coming in an upcoming phase."
+      title="Fees"
+      description="The Fees module is coming in an upcoming phase."
     />
   );
 }

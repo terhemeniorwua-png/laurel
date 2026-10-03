@@ -1,6 +1,6 @@
 import PortalComingSoon from "@/app/components/portal/PortalComingSoon";
 
-export default function MyChildrenPage() {
+export default function ChildrenPage() {
   return (
     <PortalComingSoon
       title="My Children"
